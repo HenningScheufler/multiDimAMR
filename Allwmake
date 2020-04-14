@@ -1,0 +1,4 @@
+#!/bin/sh
+cd ${0%/*} || exit 1
+
+wmake libso src/dynamicLoadBalanceFvMesh

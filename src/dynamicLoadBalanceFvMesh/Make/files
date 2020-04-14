@@ -1,0 +1,22 @@
+hexRef = hexRef
+
+$(hexRef)/hexRef.C
+$(hexRef)/hexRefData.C
+$(hexRef)/refinementHistoryMultiDim.C
+$(hexRef)/hexRefNew.C
+
+$(hexRef)/hexRef3D/hexRef3D.C
+$(hexRef)/hexRef4/hexRef4.C
+$(hexRef)/hexRef4Axi/hexRef4Axi.C
+
+adaptCriteria/adaptCriteria.C
+adaptCriteria/fieldBounds/fieldBounds.C
+adaptCriteria/composedAdaptCriteria/composedAdaptCriteria.C
+
+dynamicMultiDimRefineFvMesh/dynamicMultiDimRefineFvMesh.C
+dynamicMultiDimRefineBalancedFvMesh/dynamicMultiDimRefineBalancedFvMesh.C
+
+refinementHistoryMultiDimConstraint/refinementHistoryMultiDimConstraint.C
+
+
+LIB = $(FOAM_USER_LIBBIN)/libdynamicLoadBalanceFvMesh

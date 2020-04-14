@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "*.H": "cpp",
+        "*.C": "cpp"
+    },
+    "C_Cpp.intelliSenseEngine": "Tag Parser"
+}
