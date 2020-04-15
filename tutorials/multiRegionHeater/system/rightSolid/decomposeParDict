@@ -1,0 +1,54 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v1812                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      decomposeParDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+numberOfSubdomains  4;
+
+method          scotch;
+// method          hierarchical;
+// method          simple;
+
+regions
+{
+    heater
+    {
+        numberOfSubdomains  1;
+        method      simple; // none;
+
+        coeffs
+        {
+            n       (1 1 1);
+        }
+    }
+}
+
+coeffs
+{
+    n       (2 2 1);
+}
+
+/*
+constraints
+{
+    //- Keep owner and neighbour on same processor for faces in zones:
+    faces
+    {
+        type    preserveFaceZones;
+        zones   (heater solid1 solid3);
+    }
+}
+*/
+
+// ************************************************************************* //

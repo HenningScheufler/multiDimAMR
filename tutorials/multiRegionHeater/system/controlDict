@@ -1,0 +1,65 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v1812                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      controlDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+application     chtMultiRegionDyMFoam ;
+
+startFrom       latestTime;
+
+startTime       0.001;
+
+stopAt          endTime;
+
+endTime         10;
+
+deltaT          0.001;
+
+writeControl    adjustableRunTime;
+
+writeInterval   0.1;
+
+purgeWrite      0;
+
+writeFormat     ascii;
+
+writePrecision  8;
+
+writeCompression off;
+
+timeFormat      general;
+
+timePrecision   6;
+
+runTimeModifiable yes;
+
+maxCo           0.6;
+
+// Maximum diffusion number
+maxDi           10.0;
+
+adjustTimeStep  yes;
+
+libs
+(
+   "libdynamicLoadBalanceFvMesh.so"		// All AMR and LB enhancements
+);
+
+functions
+{
+    #include "vtkWrite"
+}
+
+// ************************************************************************* //

@@ -1,0 +1,34 @@
+#!/bin/sh
+cd ${0%/*} || exit 1                        # Run from this directory
+. $WM_PROJECT_DIR/bin/tools/RunFunctions    # Tutorial run functions
+
+runApplication blockMesh
+runApplication topoSet
+
+# Restore initial fields
+restore0Dir
+
+runApplication splitMeshRegions -cellZones -overwrite
+
+# Remove fluid fields from solid regions (important for post-processing)
+# for region in $(foamListRegions solid)
+# do
+#     rm -f 0/$region/{nut,alphat,epsilon,k,U,p_rgh}
+#     rm -f processor*/0/$region/{nut,alphat,epsilon,k,U,p_rgh}
+# done
+
+# for region in $(foamListRegions)
+# do
+#     runApplication -s $region changeDictionary -region $region
+# done
+rm -r constant/polyMesh
+restore0Dir
+
+touch multiRegionHeater.foam
+
+echo
+echo "Use paraFoam -touch-all to create files for paraview post-processing"
+echo
+echo "End"
+
+#------------------------------------------------------------------------------

@@ -1,0 +1,5 @@
+fluid/compressibleCourantNo.C
+solid/solidRegionDiffNo.C
+chtMultiRegionDyMFoam.C
+
+EXE = $(FOAM_USER_APPBIN)/chtMultiRegionDyMFoam

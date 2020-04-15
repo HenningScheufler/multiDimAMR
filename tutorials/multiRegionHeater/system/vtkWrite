@@ -1,0 +1,61 @@
+// -*- C++ -*-
+// Use the vtkWrite function object
+
+vtkWrite
+{
+    type    vtkWrite;
+    libs    ("libutilityFunctionObjects.so");
+    log     true;
+
+    writeControl    writeTime;
+    writeInterval   1;
+
+    regions (".*");
+
+    internal    true;
+
+    boundary    true;
+
+    single      false;
+
+    interpolate true;
+
+    // Fields to output (words or regex)
+    fields  (".*");
+
+    //- Output format (ascii | binary) - Default=binary
+    // format  binary;
+
+    //- Use legacy output format - Default=false
+    // legacy  false;
+
+    //- Output directory name - Default="postProcessing/<name>"
+    // directory   "VTK";
+
+    //- Write cell ids as field - Default=true
+    writeIds    false;
+}
+
+
+// Solid walls only
+walls
+{
+    type    vtkWrite;
+    libs    ("libutilityFunctionObjects.so");
+    log     true;
+
+    writeControl    writeTime;
+    writeInterval   1;
+
+    internal    false;
+
+    // single      true;
+
+    regions     ( heater "(?i).*solid" );
+    patches     ( "(?i).*solid_to.*" "heater.*(Air|Water)" );
+
+    fields      (T);
+}
+
+
+// ************************************************************************* //

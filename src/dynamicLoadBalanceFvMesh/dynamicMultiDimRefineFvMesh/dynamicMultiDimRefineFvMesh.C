@@ -1183,25 +1183,6 @@ bool Foam::dynamicMultiDimRefineFvMesh::update()
                 cellsToRefine.size(), sumOp<label>()
             );
 
-            // // // improve field mapping for T
-
-            // DynamicList<label> oldCells;
-            // DynamicList<scalar> oldValue;
-            // DynamicList<vector> oldGrad;
-            // DynamicList<vector> oldCentre;
-
-            // volScalarField& T = lookupObjectRef<volScalarField>("T");
-            // T.oldTime();
-            // volVectorField gradT = fvc::grad(T);
-            // for (const label celli: cellsToRefine)
-            // {
-            //     oldCells.append(celli);
-            //     oldValue.append(T[celli]);
-            //     oldGrad.append(gradT[celli]);
-            //     oldCentre.append(this->C()[celli]);
-            // }
-            // bitSet allRefinedCells;
-
             if (nCellsToRefine > 0)
             {
                 // Refine/update mesh and map fields
@@ -1214,8 +1195,6 @@ bool Foam::dynamicMultiDimRefineFvMesh::update()
                     const labelList& reverseCellMap = map().reverseCellMap();
 
                     bitSet newRefineCell(cellMap.size());
-                    // allRefinedCells.setSize(cellMap.size());
-                    // allRefinedCells = false;
 
                     forAll(cellMap, celli)
                     {
@@ -1230,43 +1209,10 @@ bool Foam::dynamicMultiDimRefineFvMesh::update()
                         {
                             newRefineCell.set(celli);
                         }
-                        // if // this statements can be combined
-                        // (
-                        //     (oldCelli < 0)
-                        //  || (reverseCellMap[oldCelli] != celli)
-                        // )
-                        // {
-                        //     allRefinedCells.set(celli);
-                        // }
                     }
-                    // allRefinedCells.set(cellsToRefine);
                     // move content in refineCell 
                     refineCell.transfer(newRefineCell);
                 }
-
-                // const labelList& cellMap = map().cellMap();
-
-                // // maybe it is better with the refinement history
-                // // loop over refined cells
-                // for (const label celli: allRefinedCells.toc())
-                // {
-                //     const label parentCell = cellMap[celli];
-                //     label oldCellsIdx = findSortedIndex(oldCells,parentCell);
-                //     if(oldCellsIdx == -1)
-                //     {
-                //         Pout << "parentCell " << parentCell << nl
-                //             << "is not in oldCells:" <<  oldCells << endl; 
-                //         FatalErrorInFunction
-                //             << "parentCell " << parentCell << nl
-                //             << "is not in oldCells:" <<  oldCells
-                //             << exit(FatalError);
-                //     }
-                //     vector ctr = oldCentre[oldCellsIdx];
-                //     vector grad = oldGrad[oldCellsIdx];
-                //     scalar value = oldValue[oldCellsIdx];
-                //     scalar newInterpolValue = value + ((this->cellCentres()[celli]-ctr) & grad);
-                //     T.oldTime()[celli] = newInterpolValue;
-                // }
 
                 // Extend with a buffer layer to prevent neighbouring points
                 // being unrefined.
