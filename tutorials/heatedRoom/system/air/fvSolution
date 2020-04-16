@@ -38,6 +38,7 @@ solvers
         relTol           0.01;
 
         smoother         GaussSeidel;
+        cacheAgglomeration no;
 
     }
 
@@ -46,6 +47,7 @@ solvers
         $p_rgh;
         tolerance        1e-7;
         relTol           0;
+        cacheAgglomeration no;
     }
 
     pcorr
@@ -55,6 +57,7 @@ solvers
         relTol           0.01;
 
         smoother         GaussSeidel;
+        cacheAgglomeration no;
     }
 
     pcorrFinal
@@ -62,6 +65,7 @@ solvers
         $p_rgh;
         tolerance        1e-7;
         relTol           0;
+        cacheAgglomeration no;
     }
 
     "(U|h|k|epsilon|R)"

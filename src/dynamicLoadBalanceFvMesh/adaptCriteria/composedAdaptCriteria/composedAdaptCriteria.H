@@ -33,6 +33,7 @@ SourceFiles
 
 Author
     Vuko Vukcevic, Wikki Ltd.  All rights reserved.
+    modified by Henning Scheufler, DLR (2020)
 
 \*---------------------------------------------------------------------------*/
 
