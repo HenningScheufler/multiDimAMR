@@ -10,22 +10,12 @@ FoamFile
     version     2.0;
     format      ascii;
     class       dictionary;
-    object      decomposeParDict;
+    location    "constant";
+    object      turbulenceProperties;
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-numberOfSubdomains  4;
+simulationType  laminar;
 
-method          scotch;
-
-constraints
-{
-    refinementHistoryMultiDim
-    {
-        //- Decompose cells such that all cell originating from single cell
-        //  end up on same processor
-        type    refinementHistoryMultiDim;
-    }
-}
 
 // ************************************************************************* //

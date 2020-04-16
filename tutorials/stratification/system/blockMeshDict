@@ -10,22 +10,47 @@ FoamFile
     version     2.0;
     format      ascii;
     class       dictionary;
-    object      decomposeParDict;
+    object      blockMeshDict;
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-numberOfSubdomains  4;
+scale   0.1;
 
-method          scotch;
+vertices
+(
+    (0 0 -0.1)
+    (1 0 -0.1)
+    (1 2 -0.1)
+    (0 2 -0.1)
+    (0 0 0.1)
+    (1 0 0.1)
+    (1 2 0.1)
+    (0 2 0.1)
+);
 
-constraints
-{
-    refinementHistoryMultiDim
-    {
-        //- Decompose cells such that all cell originating from single cell
-        //  end up on same processor
-        type    refinementHistoryMultiDim;
-    }
-}
+blocks
+(
+    hex (0 1 2 3 4 5 6 7) (50 100 1) simpleGrading (1 1 1)
+);
+
+patches
+(
+    wall walls
+    (
+        (3 7 6 2)
+        (0 4 7 3)
+        (1 5 4 0)
+    )
+
+    wall rightWall
+    (
+        (2 6 5 1)
+    )
+    empty frontAndBack
+    (
+        (0 3 2 1)
+        (4 5 6 7)
+    )
+);
 
 // ************************************************************************* //

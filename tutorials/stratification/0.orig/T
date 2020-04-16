@@ -9,22 +9,31 @@ FoamFile
 {
     version     2.0;
     format      ascii;
-    class       dictionary;
-    object      decomposeParDict;
+    class       volScalarField;
+    object      T;
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-numberOfSubdomains  4;
+dimensions      [0 0 0 1 0 0 0];
 
-method          scotch;
+internalField   uniform 300;
 
-constraints
+boundaryField
 {
-    refinementHistoryMultiDim
+    walls
     {
-        //- Decompose cells such that all cell originating from single cell
-        //  end up on same processor
-        type    refinementHistoryMultiDim;
+        type            zeroGradient;
+    }
+
+    rightWall
+    {
+        type            fixedValue;
+        value           uniform 310;
+    }
+
+    defaultFaces
+    {
+        type            empty;
     }
 }
 

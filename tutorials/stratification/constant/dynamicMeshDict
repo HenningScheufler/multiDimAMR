@@ -1,0 +1,115 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v1812                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "constant";
+    object      dynamicMeshDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dynamicFvMesh   dynamicMultiDimRefineBalancedFvMesh; //dynamicMultiDimRefineFvMesh
+
+enableBalancing true;
+allowableImbalance 0.10;
+
+adaptCriteria
+{
+    // type fieldBounds;
+    // fieldName alpha.water;
+    // lowerBound 0.001;
+    // upperBound 0.999;
+    
+    type composedAdaptCriteria;
+    operation or;
+    criteria
+    (
+        composed
+        {
+            type composedAdaptCriteria;
+            operation and;
+            criteria
+            (
+                Temperature
+                {
+                    type fieldBounds;
+                    fieldName T;
+                    lowerBound 301;
+                    upperBound 310;
+                    nLayer     2;
+                }
+                // without interface refinement we get strong parasitic currents at the 
+                // interface
+                fluid
+                {
+                    type fieldBounds;
+                    fieldName alpha.water;
+                    lowerBound 0.999999;
+                    upperBound 2;
+                }
+                interface
+                {
+                    type fieldBounds;
+                    fieldName alpha.water;
+                    lowerBound 0.001;
+                    upperBound 0.999;
+                    nLayer     2;
+                    negate     true;
+                }
+            );
+        }
+        // with interface refinement we get velocity oscillation on y direction
+        // interface
+        // {
+        //     type fieldBounds;
+        //     fieldName alpha.water;
+        //     lowerBound 0.001;
+        //     upperBound 0.999;
+        //     nLayer     2;
+        // }
+    );
+}
+// How often to refine
+refineInterval  5;
+
+
+// Have slower than 2:1 refinement
+nBufferLayers   1;
+
+// Refine cells only up to maxRefinement levels
+maxRefinement   2;
+
+// Stop refinement if maxCells reached
+maxCells        1500000;
+
+// Flux field and corresponding velocity field. Fluxes on changed
+// faces get recalculated by interpolating the velocity. Use 'none'
+// on surfaceScalarFields that do not need to be reinterpolated.
+correctFluxes
+(
+    (phi none)
+    (nHatf none)
+    (rhoPhi none)
+    (alphaPhi0.water none)
+    (alphaPhi0 none)
+    (alphaPhiUn none)
+    (ghf none)
+    (phi0 none)
+    (dVf_ none)
+);
+
+// Write the refinement level as a volScalarField
+dumpLevel       true;
+
+
+
+
+
+// ************************************************************************* //

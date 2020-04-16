@@ -9,23 +9,14 @@ FoamFile
 {
     version     2.0;
     format      ascii;
-    class       dictionary;
-    object      decomposeParDict;
+    class       uniformDimensionedVectorField;
+    location    "constant";
+    object      g;
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-numberOfSubdomains  4;
+dimensions      [0 1 -2 0 0 0 0];
+value           (0 -9.81 0);
 
-method          scotch;
-
-constraints
-{
-    refinementHistoryMultiDim
-    {
-        //- Decompose cells such that all cell originating from single cell
-        //  end up on same processor
-        type    refinementHistoryMultiDim;
-    }
-}
 
 // ************************************************************************* //

@@ -101,6 +101,9 @@ protected:
     // optional minLevel entry
     const label minCellLevel_;
 
+    // optional minLevel entry
+    const bool negate_;
+
     // Protected member functions
 
         // Access functions for derived classes

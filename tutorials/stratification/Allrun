@@ -1,0 +1,13 @@
+#!/bin/sh
+cd ${0%/*} || exit 1                        # Run from this directory
+. $WM_PROJECT_DIR/bin/tools/RunFunctions    # Tutorial run functions
+
+touch stratification.foam
+runApplication blockMesh
+restore0Dir
+runApplication setFields
+
+runApplication decomposePar
+runParallel $(getApplication)
+
+#------------------------------------------------------------------------------

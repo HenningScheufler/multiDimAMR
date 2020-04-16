@@ -10,22 +10,50 @@ FoamFile
     version     2.0;
     format      ascii;
     class       dictionary;
-    object      decomposeParDict;
+    location    "system";
+    object      controlDict;
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-numberOfSubdomains  4;
+application     compressibleInterDyMFoam;
 
-method          scotch;
+startFrom       startTime;
 
-constraints
-{
-    refinementHistoryMultiDim
-    {
-        //- Decompose cells such that all cell originating from single cell
-        //  end up on same processor
-        type    refinementHistoryMultiDim;
-    }
-}
+startTime       0;
+
+stopAt          endTime;
+
+endTime         10;
+
+deltaT          0.0001;
+
+writeControl    adjustableRunTime;
+
+writeInterval   0.1;
+
+purgeWrite      0;
+
+writeFormat     binary;
+
+writePrecision  8;
+
+writeCompression off;
+
+timeFormat      general;
+
+timePrecision   10;
+
+runTimeModifiable yes;
+
+adjustTimeStep  yes;
+
+maxCo           0.5;
+maxAlphaCo      0.5;
+maxDeltaT       1;
+
+libs
+(
+   "libdynamicLoadBalanceFvMesh.so"		// All AMR and LB enhancements
+);
 
 // ************************************************************************* //

@@ -56,6 +56,19 @@ class composedAdaptCriteria
 {
     // Private data
 
+        enum operationType
+        {
+            opOr,
+            opAnd,
+            opXor,
+        };
+
+        //- Operation type names
+        static const Enum<operationType> operationTypeNames_;
+
+        //- Operation to apply to values
+        operationType operation_;
+
         //- List of basic refinement selection algorithms
         PtrList<adaptCriteria> criteriaSelections_;
 

@@ -45,6 +45,19 @@ addToRunTimeSelectionTable
 
 }
 
+const Foam::Enum
+<
+    Foam::composedAdaptCriteria::operationType
+>
+Foam::composedAdaptCriteria::operationTypeNames_
+({
+
+    { operationType::opOr, "or" },
+    { operationType::opAnd, "and" },
+    { operationType::opXor, "xor" },
+
+});
+
 // * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
 
 Foam::composedAdaptCriteria::composedAdaptCriteria
@@ -54,6 +67,7 @@ Foam::composedAdaptCriteria::composedAdaptCriteria
 )
 :
     adaptCriteria(mesh, dict),
+    operation_(operationTypeNames_.get("operation", dict)),
     criteriaSelections_()
 {
     // Read basic refinement selections
@@ -94,7 +108,7 @@ Foam::composedAdaptCriteria::refinementCellCandidates() const
     bitSet refineCells(mesh().nCells(),false);
 
     // Loop through all base refinement selections
-    forAll (criteriaSelections_, brsI)
+    forAll(criteriaSelections_, brsI)
     {
         // Get refinement candidates from this base selection algorithm. Note:
         // list is transferred
@@ -103,12 +117,37 @@ Foam::composedAdaptCriteria::refinementCellCandidates() const
             criteriaSelections_[brsI].refinementCellCandidates()
         );
 
-        // Increment the number of selections for selected cells
-        // forAll (curRefCandidates, i)
-        // {
-        //     ++nSelections[curRefCandidates[i]];
-        // }
-        refineCells = refineCells | curRefCandidates;
+        if(brsI == 0)
+        {
+            refineCells = curRefCandidates;
+        }
+        else
+        {
+            switch (operation_)
+            {
+                case opOr:
+                {
+                    refineCells = refineCells | curRefCandidates;
+                    break;
+                }
+                case opAnd:
+                {
+                    refineCells = refineCells & curRefCandidates;
+                    break;
+                }
+                case opXor:
+                {
+                    refineCells = refineCells ^ curRefCandidates;
+                    break;
+                }
+                default:
+                {
+                    FatalErrorInFunction << "operation not available" << endl;
+                    break;
+                }
+            }
+        }
+        
     }
 
     // // Create storage for collection of final cell candidates. Assume that
@@ -135,6 +174,11 @@ Foam::composedAdaptCriteria::refinementCellCandidates() const
     //     << endl;
 
     // Return the list in the Xfer container to prevent copying
+    if(negate_)
+    {
+        refineCells = ~refineCells;
+    }
+
     return refineCells;
 }
 
@@ -159,7 +203,39 @@ Foam::composedAdaptCriteria::unrefinementPointCandidates() const
         // {
         //     ++nSelections[curRefCandidates[i]];
         // }
-        unrefinePoints = unrefinePoints & curUnRefCandidates;
+        if(brsI == 0)
+        {
+            unrefinePoints = curUnRefCandidates;
+        }
+        else
+        {
+            switch (operation_)
+            {
+                // unrefine if all points match the criteria
+                case opOr:
+                {
+                    unrefinePoints = unrefinePoints & curUnRefCandidates;
+                    break;
+                }
+                // unrefine if one point does not match the criteria
+                case opAnd:
+                {
+                    unrefinePoints = unrefinePoints | curUnRefCandidates;
+                    break;
+                }
+                // unrefine if not xor? not really sure
+                case opXor:
+                {
+                    unrefinePoints = ~(unrefinePoints ^ curUnRefCandidates);
+                    break;
+                }
+                default:
+                {
+                    FatalErrorInFunction << "operation not available" << endl;
+                    break;
+                }
+            }
+        }
     }
 
     // // Create storage for collection of final point candidates. Assume that one
@@ -186,6 +262,11 @@ Foam::composedAdaptCriteria::unrefinementPointCandidates() const
     //     << endl;
 
     // Return the list in the Xfer container to prevent copying
+    if(negate_)
+    {
+        unrefinePoints = ~unrefinePoints;
+    }
+
     return unrefinePoints;
 }
 

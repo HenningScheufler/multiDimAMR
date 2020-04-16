@@ -152,6 +152,10 @@ Foam::fieldBounds::refinementCellCandidates() const
     //     << endl;
 
     // Return the list in the Xfer container to prevent copying
+    if(negate_)
+    {
+        refineCells = ~refineCells;
+    }
     return refineCells;
 }
 
@@ -205,6 +209,11 @@ Foam::fieldBounds::unrefinementPointCandidates() const
     //     << returnReduce(unrefinePoints.toc().size(), sumOp<label>())
     //     << " points as unrefinement candidates."
     //     << endl;
+
+    if(negate_)
+    {
+        unrefinePoints = ~unrefinePoints;
+    }
 
     return unrefinePoints;
 }

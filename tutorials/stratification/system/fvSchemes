@@ -10,22 +10,50 @@ FoamFile
     version     2.0;
     format      ascii;
     class       dictionary;
-    object      decomposeParDict;
+    location    "system";
+    object      fvSchemes;
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-numberOfSubdomains  4;
-
-method          scotch;
-
-constraints
+ddtSchemes
 {
-    refinementHistoryMultiDim
-    {
-        //- Decompose cells such that all cell originating from single cell
-        //  end up on same processor
-        type    refinementHistoryMultiDim;
-    }
+    default         Euler;
+}
+
+gradSchemes
+{
+    default         pointCellsLeastSquares;
+}
+
+divSchemes
+{
+    div(phi,alpha)  Gauss vanLeer;
+    div(phirb,alpha) Gauss linear;
+
+    div(rhoPhi,U)  Gauss limitedLinear 1;
+    div(rhoPhi,T)  Gauss limitedLinear 1;
+    div(rhoPhi,K)  Gauss limitedLinear 1;
+    div(phi,p)      Gauss limitedLinear 1;
+    div(phi,k)      Gauss limitedLinear 1;
+    div(phi,thermo:rho.water) Gauss limitedLinear 1;
+    div(phi,thermo:rho.air) Gauss limitedLinear 1;
+
+    div(((rho*nuEff)*dev2(T(grad(U))))) Gauss linear;
+}
+
+laplacianSchemes
+{
+    default         Gauss linear corrected;
+}
+
+interpolationSchemes
+{
+    default         linear;
+}
+
+snGradSchemes
+{
+    default         corrected;
 }
 
 // ************************************************************************* //

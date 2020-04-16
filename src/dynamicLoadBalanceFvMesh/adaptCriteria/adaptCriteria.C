@@ -50,7 +50,8 @@ Foam::adaptCriteria::adaptCriteria
     mesh_(mesh),
     coeffDict_(dict),
     maxCellLevel_(dict.lookupOrDefault<label>("maxCellLevel",labelMax)),
-    minCellLevel_(dict.lookupOrDefault<label>("minCellLevel",0))
+    minCellLevel_(dict.lookupOrDefault<label>("minCellLevel",0)),
+    negate_(dict.lookupOrDefault<bool>("negate",false))
 {}
 
 
