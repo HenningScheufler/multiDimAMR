@@ -176,7 +176,10 @@ void Foam::dynamicMultiDimRefineFvMesh::mapNewInternalFaces
                 > NormalGeoField;
 
                 // Convert to intensive and non oriented
-                NormalGeoField fFld(sFld*Sf/Foam::sqr(magSf));
+                // sqr(magSf) can throw float point exception
+                //NormalGeoField fFld(sFld*Sf/Foam::sqr(magSf));
+                surfaceVectorField n = Sf/magSf;
+                NormalGeoField fFld(sFld*n/magSf);
 
                 // Interpolate
                 mapNewInternalFaces(faceMap, fFld);
