@@ -249,7 +249,7 @@ bool Foam::dynamicMultiDimRefineBalancedFvMesh::update()
                 scalar tolDim = globalMeshData::matchTol_ * bounds().mag();
 
                 Info<< "Distributing the mesh ..." << endl;
-                fvMeshDistribute distributor(*this, tolDim);
+                fvMeshDistributeAddPatch distributor(*this, tolDim);
 
                 Info<< "Mapping the fields ..." << endl;
                 autoPtr<mapDistributePolyMesh> map =
