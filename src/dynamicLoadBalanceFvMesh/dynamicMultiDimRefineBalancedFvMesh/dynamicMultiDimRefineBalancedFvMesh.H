@@ -129,6 +129,9 @@ public:
         //- Update the mesh for both mesh motion and topology change
         virtual bool update();
 
+        //- Map all fields in time using given map.
+        virtual void mapFields(const mapPolyMesh& mpm);
+
         //- Template to update all volField boundaries
         template<class Type> void correctBoundaries();
 
