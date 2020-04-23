@@ -11,6 +11,7 @@ $(hexRef)/hexRef4Axi/hexRef4Axi.C
 
 adaptCriteria/adaptCriteria.C
 adaptCriteria/fieldBounds/fieldBounds.C
+adaptCriteria/geometric/geometric.C
 adaptCriteria/composedAdaptCriteria/composedAdaptCriteria.C
 
 dynamicMultiDimRefineFvMesh/dynamicMultiDimRefineFvMesh.C
