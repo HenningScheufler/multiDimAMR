@@ -288,5 +288,10 @@ bool Foam::dynamicMultiDimRefineBalancedFvMesh::update()
     return hasChanged;
 }
 
+void Foam::dynamicMultiDimRefineBalancedFvMesh::mapFields(const mapPolyMesh& mpm)
+{
+    dynamicFvMesh::mapFields(mpm);
+}
+
 
 // ************************************************************************* //
