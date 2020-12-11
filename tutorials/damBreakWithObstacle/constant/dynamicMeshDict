@@ -26,23 +26,24 @@ adaptCriteria
     // fieldName alpha.water;
     // lowerBound 0.001;
     // upperBound 0.999;
-    
+
     type composedAdaptCriteria;
+    operation or;
     criteria
     (
         interface
         {
             type fieldBounds;
             fieldName alpha.water;
-            lowerBound 0.001;
-            upperBound 0.999;
+            lowerBound 0.0001;
+            upperBound 0.9999;
             nLayer     2;
         }
         fluid
         {
             type fieldBounds;
             fieldName alpha.water;
-            lowerBound 0.001;
+            lowerBound 0.0001;
             upperBound 2;
             maxCellLevel 1;
         }

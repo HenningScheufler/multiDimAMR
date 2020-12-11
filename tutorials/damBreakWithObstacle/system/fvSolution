@@ -22,6 +22,10 @@ solvers
         nAlphaCorr      1;
         nAlphaSubCycles 3;
         cAlpha          1;
+        advectionScheme isoAdvection;
+        reconstructionScheme plicRDF;
+        vof2IsoTol 1e-8;
+        surfCellTol 1e-6;
     }
 
     p_rgh
@@ -42,10 +46,20 @@ solvers
     "pcorr.*"
     {
         $p_rghFinal;
-        tolerance       0.0001;
+        tolerance       1e-08;
+        relTol          0;
     }
 
     U
+    {
+        solver          smoothSolver;
+        smoother        GaussSeidel;
+        tolerance       1e-06;
+        relTol          0;
+        nSweeps         1;
+    }
+
+    UFinal
     {
         solver          smoothSolver;
         smoother        GaussSeidel;
@@ -65,9 +79,10 @@ solvers
 
 PIMPLE
 {
-    momentumPredictor no;
+    momentumPredictor yes;
     nCorrectors     3;
     nNonOrthogonalCorrectors 0;
+    correctPhi yes;
 
     pRefPoint      (0.51 0.51 0.51);
     pRefValue      0;

@@ -15,7 +15,7 @@ FoamFile
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-application     interFoam;
+application     interFoam; // interFlow works with VoFLibrary
 
 startFrom       startTime;
 
