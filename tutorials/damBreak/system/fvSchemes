@@ -11,49 +11,49 @@ FoamFile
     format      ascii;
     class       dictionary;
     location    "system";
-    object      controlDict;
+    object      fvSchemes;
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-application     interIsoFoam; // interFlow   works with VoFLibrary
+ddtSchemes
+{
+    default         Euler;
+}
 
-startFrom       startTime;
+gradSchemes
+{
+    default         pointCellsLeastSquares;
+}
 
-startTime       0;
+divSchemes
+{
+    div(rhoPhi,U)   Gauss upwind;
+    div(phi,alpha)  Gauss vanLeer;
+    div(phirb,alpha) Gauss linear;
+    div(phi,k)      Gauss upwind;
+    div(phi,omega)  Gauss upwind;
+    div(((rho*nuEff)*dev2(T(grad(U))))) Gauss linear;
+}
 
-stopAt          endTime;
+laplacianSchemes
+{
+    default         Gauss linear corrected;
+}
 
-endTime         2;
+interpolationSchemes
+{
+    default         linear;
+}
 
-deltaT          0.001;
+snGradSchemes
+{
+    default         corrected;
+}
 
-writeControl    adjustableRunTime;
+wallDist
+{
+    method meshWave;
+}
 
-writeInterval   0.02;
-
-purgeWrite      0;
-
-writeFormat     ascii;
-
-writePrecision  6;
-
-writeCompression off;
-
-timeFormat      general;
-
-timePrecision   6;
-
-runTimeModifiable yes;
-
-adjustTimeStep  yes;
-
-maxCo           0.5;
-maxAlphaCo      0.5;
-maxDeltaT       1;
-
-libs
-(
-   "libdynamicLoadBalanceFvMesh.so"		// All AMR and LB enhancements
-);
 
 // ************************************************************************* //

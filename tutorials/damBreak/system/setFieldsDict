@@ -1,8 +1,8 @@
 /*--------------------------------*- C++ -*----------------------------------*\
 | =========                 |                                                 |
 | \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
-|  \\    /   O peration     | Version:  2.1.1                                 |
-|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|  \\    /   O peration     | Version:  v2006                                 |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
 |    \\/     M anipulation  |                                                 |
 \*---------------------------------------------------------------------------*/
 FoamFile
@@ -11,28 +11,26 @@ FoamFile
     format      ascii;
     class       dictionary;
     location    "system";
-    object      balanceParDict;
+    object      setFieldsDict;
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-numberOfSubdomains 6;
+defaultFieldValues
+(
+    volScalarFieldValue alpha.water 0
+);
 
-method          ptscotch; //clsutered //scotch
-
-
-simpleCoeffs
-{
-    n               (1 4 1);
-    delta           0.001;
-}
-
-constraints
-{
-    refinementHistoryMultiDim
+regions
+(
+    boxToCell
     {
-        //- Decompose cells such that all cell originating from single cell
-        //  end up on same processor
-        type    refinementHistoryMultiDim;
+        box (0 0 -1) (0.1461 0.292 1);
+        fieldValues
+        (
+            volScalarFieldValue alpha.water 1
+        );
     }
-}
+);
+
+
 // ************************************************************************* //

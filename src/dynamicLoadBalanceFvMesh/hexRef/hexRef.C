@@ -555,7 +555,7 @@ Foam::label Foam::hexRef::getAnchorCell
 {
     if (cellAnchorPoints[celli].size())
     {
-        label index = findIndex(cellAnchorPoints[celli], pointi);
+        label index = cellAnchorPoints[celli].find(pointi);
 
         if (index != -1)
         {
@@ -570,7 +570,7 @@ Foam::label Foam::hexRef::getAnchorCell
 
         forAll(f, fp)
         {
-            label index = findIndex(cellAnchorPoints[celli], f[fp]);
+            label index = cellAnchorPoints[celli].find(f[fp]);
 
             if (index != -1)
             {
@@ -1340,7 +1340,7 @@ bool Foam::hexRef::matchHexShape
                         if (iter != pointFaces.end())
                         {
                             labelList& pFaces = iter();
-                            if (findIndex(pFaces, facei) == -1)
+                            if (pFaces.find(facei) == -1)
                             {
                                 pFaces.append(facei);
                             }
@@ -1904,7 +1904,7 @@ Foam::labelList Foam::hexRef::consistentSlowRefinement
                 << "Argument facesToCheck seems to have duplicate entries!"
                 << endl
                 << "face:" << facei << " occurs at positions "
-                << findIndices(facesToCheck, facei)
+                << facesToCheck.find(facei)
                 << abort(FatalError);
         }
 
@@ -2390,7 +2390,7 @@ Foam::labelList Foam::hexRef::consistentSlowRefinement2
                 << "Argument facesToCheck seems to have duplicate entries!"
                 << endl
                 << "face:" << facei << " occurs at positions "
-                << findIndices(facesToCheck, facei)
+                << facesToCheck.find(facei)
                 << abort(FatalError);
         }
 
@@ -2996,7 +2996,7 @@ void Foam::hexRef::subset
 
         cellLevel_.transfer(newCellLevel);
 
-        if (findIndex(cellLevel_, -1) != -1)
+        if (cellLevel_.find(-1) != -1)
         {
             FatalErrorInFunction
                 << "Problem : "
@@ -3017,7 +3017,7 @@ void Foam::hexRef::subset
 
         pointLevel_.transfer(newPointLevel);
 
-        if (findIndex(pointLevel_, -1) != -1)
+        if (pointLevel_.find(-1) != -1)
         {
             FatalErrorInFunction
                 << "Problem : "
@@ -3537,7 +3537,7 @@ void Foam::hexRef::checkRefinementLevels
 
 const Foam::cellShapeList& Foam::hexRef::cellShapes() const
 {
-    if (cellShapesPtr_.empty())
+    if (cellShapesPtr_)
     {
         if (debug)
         {

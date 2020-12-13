@@ -595,7 +595,7 @@ Foam::dynamicMultiDimRefineFvMesh::unrefine
             forAllConstIters(faceToSplitPoint, iter)
             {
                 const label oldFacei = iter.key();
-                const label oldPointi = iter.object();
+                const label oldPointi = iter.val();
 
                 if (reversePointMap[oldPointi] < 0)
                 {
@@ -929,7 +929,7 @@ Foam::dynamicMultiDimRefineFvMesh::dynamicMultiDimRefineFvMesh(const IOobject& i
     protectedCell_(nCells()),
     nRefinementIterations_(0),
     dumpLevel_(false),
-    adaptCriteriaPtr_() 
+    adaptCriteriaPtr_()
 {
     // Read static part of dictionary
     readDict();
@@ -1210,7 +1210,7 @@ bool Foam::dynamicMultiDimRefineFvMesh::update()
                             newRefineCell.set(celli);
                         }
                     }
-                    // move content in refineCell 
+                    // move content in refineCell
                     refineCell.transfer(newRefineCell);
                 }
 
@@ -1276,9 +1276,7 @@ bool Foam::dynamicMultiDimRefineFvMesh::update()
 
 bool Foam::dynamicMultiDimRefineFvMesh::writeObject
 (
-    IOstream::streamFormat fmt,
-    IOstream::versionNumber ver,
-    IOstream::compressionType cmp,
+    IOstreamOption streamOpt,
     const bool valid
 ) const
 {
@@ -1287,7 +1285,7 @@ bool Foam::dynamicMultiDimRefineFvMesh::writeObject
 
     bool writeOk =
     (
-        dynamicFvMesh::writeObject(fmt, ver, cmp, valid)
+        dynamicFvMesh::writeObject(streamOpt, valid)
      && meshCutter_->write(valid)
     );
 

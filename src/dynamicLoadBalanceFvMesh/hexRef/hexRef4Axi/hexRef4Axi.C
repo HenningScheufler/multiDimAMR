@@ -75,7 +75,7 @@ Foam::label Foam::hexRef4Axi::getAnchorCell
 {
     if (cellAnchorPoints[celli].size())
     {
-        label index = findIndex(cellAnchorPoints[celli], pointi);
+        label index = cellAnchorPoints[celli].find(pointi);
 
         if (index != -1)
         {
@@ -98,7 +98,7 @@ Foam::label Foam::hexRef4Axi::getAnchorCell
 
         forAll(f, fp)
         {
-            label index = findIndex(cellAnchorPoints[celli], f[fp]);
+            label index = cellAnchorPoints[celli].find(f[fp]);
 
             if (index != -1)
             {
@@ -214,7 +214,7 @@ Foam::label Foam::hexRef4Axi::storeMidPointInfo
         }
 
         const edge& anchors = midPointToAnchors[edgeMidPointi];
-        label index = findIndex(cellAnchorPoints[celli], anchorPointi);
+        label index = cellAnchorPoints[celli].find(anchorPointi);
 
         if (index == 0)
         {
@@ -235,7 +235,7 @@ Foam::label Foam::hexRef4Axi::storeMidPointInfo
 
         if (faceOrder == (mesh_.faceOwner()[facei] == celli))
         {
-            label anch = findIndex(f, point1);
+            label anch = f.find(point1);
 
             if (pointLevel_[f[f.rcIndex(anch)]] <= cellLevel_[celli])
             {
@@ -277,7 +277,7 @@ Foam::label Foam::hexRef4Axi::storeMidPointInfo
         }
         else
         {
-            label anch = findIndex(f, point1);
+            label anch = f.find(point1);
 
             if (pointLevel_[f[f.fcIndex(anch)]] <= cellLevel_[celli])
             {
