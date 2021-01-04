@@ -3537,7 +3537,7 @@ void Foam::hexRef::checkRefinementLevels
 
 const Foam::cellShapeList& Foam::hexRef::cellShapes() const
 {
-    if (cellShapesPtr_)
+    if (!cellShapesPtr_)
     {
         if (debug)
         {
