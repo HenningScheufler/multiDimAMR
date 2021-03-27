@@ -17,13 +17,13 @@ refinement selection algoritm is based on foam extended 4.1
 
 ## Getting Started
 
-install OpenFOAM v1812 and v2006
+install OpenFOAM v1812 
 
 compile the library
 ```
 ./Allwmake
 ```
-in case of v2012:
+in case of v2006, v2012:
 ```
 git checkout v2012
 ./Allwmake
