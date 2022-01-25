@@ -37,7 +37,7 @@ sigma           sigma [ 1 0 -2 0 0 0 0 ] 0.07;
 surfaceForces
 {
     sigma       0.07;
-    curvatureModel   gradAlpha;
+    surfaceTensionForceModel   gradAlpha;
     accelerationModel  gravity;
     gravity     ( 0 -9.81 0 );
     deltaFunctionModel alphaCSF;
