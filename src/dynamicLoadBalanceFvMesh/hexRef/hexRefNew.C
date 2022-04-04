@@ -61,7 +61,7 @@ Foam::autoPtr<Foam::hexRef> Foam::hexRef::New
         hexRefTypeName = "hexRef4";
     }
 
-    meshConstructorTable::iterator hexRefIter =
+    auto hexRefIter =
         meshConstructorTablePtr_->find(hexRefTypeName);
 
     if (hexRefIter == meshConstructorTablePtr_->end())
@@ -112,7 +112,7 @@ Foam::autoPtr<Foam::hexRef> Foam::hexRef::New
         hexRefTypeName = "hexRef4";
     }
 
-    levelsHistConstructorTable::iterator hexRefIter =
+    auto hexRefIter =
         levelsHistConstructorTablePtr_->find(hexRefTypeName);
 
     if (hexRefIter == levelsHistConstructorTablePtr_->end())
@@ -162,7 +162,7 @@ Foam::autoPtr<Foam::hexRef> Foam::hexRef::New
         hexRefTypeName = "hexRef4";
     }
 
-    levelsConstructorTable::iterator hexRefIter =
+    auto hexRefIter =
         levelsConstructorTablePtr_->find(hexRefTypeName);
 
     if (hexRefIter == levelsConstructorTablePtr_->end())

@@ -67,7 +67,7 @@ Foam::autoPtr<Foam::adaptCriteria> Foam::adaptCriteria::New
     const word adaptCriteriaTypeName(dict.lookup("type"));
     Info<< "Creating adaptCriteria " << adaptCriteriaTypeName << endl;
 
-    dictionaryConstructorTable::iterator cstrIter =
+    auto cstrIter =
         dictionaryConstructorTablePtr_->find(adaptCriteriaTypeName);
 
     if (cstrIter == dictionaryConstructorTablePtr_->end())
