@@ -15,17 +15,24 @@ FoamFile
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-numberOfSubdomains 4;
+numberOfSubdomains 6;
 
 method          ptscotch; //clsutered //scotch
 
+
+simpleCoeffs
+{
+    n               (1 4 1);
+    delta           0.001;
+}
+
 constraints
 {
-    refinementHistory
+    refinementHistoryMultiDim
     {
         //- Decompose cells such that all cell originating from single cell
         //  end up on same processor
-        type    refinementHistory;
+        type    refinementHistoryMultiDim;
     }
 }
 // ************************************************************************* //

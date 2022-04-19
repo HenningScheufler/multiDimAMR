@@ -28,6 +28,7 @@ adaptCriteria
     // upperBound 0.999;
     
     type composedAdaptCriteria;
+    operation and;
     criteria
     (
         interface

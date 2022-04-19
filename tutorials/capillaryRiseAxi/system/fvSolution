@@ -1,7 +1,7 @@
 /*--------------------------------*- C++ -*----------------------------------*\
 | =========                 |                                                 |
 | \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
-|  \\    /   O peration     | Version:  1.7.1                                 |
+|  \\    /   O peration     | Version:  v1812                                 |
 |   \\  /    A nd           | Web:      www.OpenFOAM.com                      |
 |    \\/     M anipulation  |                                                 |
 \*---------------------------------------------------------------------------*/
@@ -42,44 +42,51 @@ solvers
         // //--
     }
 
-
-
-    "pcorr.*"
-    {
-        solver          PCG;
-        preconditioner  DIC;
-        tolerance       1e-10;
-        relTol          0;
-    }
-
     p_rgh
     {
-        solver          PCG;
-        preconditioner  DIC;
-        tolerance       1e-07;
-        relTol          0.05;
+        solver          GAMG;
+        tolerance       1e-08;
+        relTol          0.01;
+        smoother        DIC;
+        cacheAgglomeration no;
     }
 
     p_rghFinal
     {
         $p_rgh;
-        tolerance       1e-07;
+        relTol          0;
+    }
+
+    "pcorr.*"
+    {
+        $p_rghFinal;
+        tolerance       1e-08;
         relTol          0;
     }
 
     U
     {
         solver          smoothSolver;
-        smoother        symGaussSeidel;
+        smoother        GaussSeidel;
         tolerance       1e-06;
         relTol          0;
+        nSweeps         1;
     }
 
     UFinal
     {
-        solver          PBiCG;
-        preconditioner  DILU;
+        solver          smoothSolver;
+        smoother        GaussSeidel;
         tolerance       1e-06;
+        relTol          0;
+        nSweeps         1;
+    }
+
+    "(k|omega|B|nuTilda).*"
+    {
+        solver          smoothSolver;
+        smoother        symGaussSeidel;
+        tolerance       1e-08;
         relTol          0;
     }
 }
@@ -87,13 +94,13 @@ solvers
 PIMPLE
 {
     momentumPredictor yes;
-    nCorrectors     4;
-    nNonOrthogonalCorrectors      1;
-    nAlphaCorr      1;
-    nAlphaSubCycles 2;
-    cAlpha          1;
+    nCorrectors     3;
+    nNonOrthogonalCorrectors 0;
+    correctPhi yes;
+
+    pRefPoint      (0.51 0.51 0.51);
+    pRefValue      0;
 }
 
 
-
-// *************************************************************************//
+// ************************************************************************* //
