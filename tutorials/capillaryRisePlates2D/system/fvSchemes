@@ -22,27 +22,27 @@ ddtSchemes
 
 gradSchemes
 {
-    default         leastSquares;    //Gauss linear;
-    //default       cellMDLimited Gauss linear 0.5;
-    grad(alpha1)    Gauss linear;
+    default         Gauss linear;
 }
 
 divSchemes
 {
-    div(rhoPhi,U)   Gauss skewCorrected linearUpwind grad(U);
-    div(phi,alpha)  Gauss vanLeer; //Gauss vanLeer;
-    div(phirb,alpha) Gauss interfaceCompression;
-    div(((rho*nuEff)*dev2(T(grad(U))))) Gauss skewCorrected linear;
+    div(rhoPhi,U)   Gauss upwind;
+    div(phi,alpha)  Gauss vanLeer;
+    div(phirb,alpha) Gauss linear;
+    div(phi,k)      Gauss upwind;
+    div(phi,omega)  Gauss upwind;
+    div(((rho*nuEff)*dev2(T(grad(U))))) Gauss linear;
 }
 
 laplacianSchemes
 {
-   default          Gauss linear corrected;
+    default         Gauss linear corrected;
 }
 
 interpolationSchemes
 {
-    default         skewCorrected linear;
+    default         linear;
 }
 
 snGradSchemes
@@ -50,12 +50,9 @@ snGradSchemes
     default         corrected;
 }
 
-fluxRequired
+wallDist
 {
-    default         no;
-    p_rgh;
-    pcorr;
-    alpha.water;
+    method meshWave;
 }
 
 

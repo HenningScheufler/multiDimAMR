@@ -22,12 +22,9 @@ allowableImbalance 0.10;
 
 adaptCriteria
 {
-    // type fieldBounds;
-    // fieldName alpha.water;
-    // lowerBound 0.001;
-    // upperBound 0.999;
-    
+
     type composedAdaptCriteria;
+    operation or;
     criteria
     (
         interface
